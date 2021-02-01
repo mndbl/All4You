@@ -17,7 +17,7 @@ class Facturacion extends Component
 {
     //variables de facturación
     public $tipoContrato, $intercambio, $interc = false, $fechaFact, $fechaVcto, $factura, $suma = 0, $sumatorias, 
-            $cuotas, $monto;
+            $cuotas, $monto, $ultimoContrato;
     
     //variables de clientes
     public $nic, $cliente, $email, $telefono, $canal, $pais, $representante, $clienteSel,
@@ -31,7 +31,7 @@ class Facturacion extends Component
             'servicios' => Servicio::where('tipo', 'like', '%'. $this->tipo . '%')->get(),
             'clientes' => Cliente::where('nombre', 'like', '%' . $this->clienteB . '%')->get(),
             'items' => Item::where('contrato_id', $this->factura)->get(),
-            // 'items' => Item::where('contrato_id', 1)->get(),
+            'contratos' => Contrato::with('items', )->get(),
             
         ]);
     }
@@ -201,8 +201,7 @@ class Facturacion extends Component
         }
     }
     public function mount(){
-        $this->factura = Contrato::max('id') + 1;
-        // $this->factura = 1;
+        
         $this->sumatorias = Item::where('contrato_id', $this->factura)->get();
         foreach($this->sumatorias as $sumatoria):
             if(!$sumatoria->intercambio > ""):
@@ -212,6 +211,14 @@ class Facturacion extends Component
     }
   
     public function itemsAdds(){
+        //se crea el registro en la tabla contratos
+        Contrato::updateOrCreate(['id' => $this->factura], [
+            'fecha' => $this->fechaFact,
+            'cliente_id' => $this->cliente_id,
+        ]);
+        $this->ultimoContrato = Contrato::latest('id')->first();
+        $this->factura = $this->ultimoContrato->id;
+        
         if($this->intercambio):
             $this->validate([
                 'fechaFact' => 'required|date',
@@ -265,7 +272,7 @@ class Facturacion extends Component
             'cliente_id' => 'required',
             'suma' => 'required|numeric',
         ]);
-        
+        // dd([$this->fechaFact, $this->cliente_id, $this->suma, $this->sumatorias, $this->factura]);
         // se agregan las cuotas por cobrar
         foreach ($this->sumatorias as $calculo) {
             if(!$calculo->intercambio):
@@ -288,12 +295,7 @@ class Facturacion extends Component
                 }
             endif;
         }
-        //se crea el registro en la tabla contratos
-        Contrato::create([
-            'fecha' => $this->fechaFact,
-            'cliente_id' => $this->cliente_id,
-            'monto' => $this->suma
-        ]);
+        Contrato::where('id',$this->factura)->update(['monto' => $this->suma]);
         $empresa = Empresa::select(['nombre', 'direccion', 'email', 'telefono', 'web'])->where('id', 1)->first();
         $facturaClte = Contrato::with(['cliente', 'items'])->where('id', $this->factura)->where('cliente_id', $this->cliente_id)->first();
         
@@ -306,8 +308,14 @@ class Facturacion extends Component
                 $message->to($this->email, $this->nombre)->subject('Contrato');
             }
         );
-        session()->flash('message', 'Factura Generada Exitosamente.');
+        session()->flash('message', 'Contrato Generado Exitosamente.');
         $this->render();
         $this->resetTodo();
+        $this->factura = '';
+    }
+    public function eliminarContrato($id){
+        $contratoAEliminar = Contrato::findOrFail($id);
+
+        session()->flash('message', 'Contrato Eliminado Exitosamente.');
     }
 }

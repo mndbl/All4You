@@ -15,7 +15,10 @@ class CreateItemsTable extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('contrato_id')->unsigned();
+            $table->foreignId('contrato_id')
+                ->constrained('contratos')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->string('servicio');
             $table->string('tipoContrato')->nullable();
             $table->string('intercambio')->nullable();

@@ -15,7 +15,10 @@ class CreatePendientesTable extends Migration
     {
         Schema::create('pendientes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('contrato_id');
+            $table->foreignId('contrato_id')
+                ->constrained('contratos')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->integer('cuota');
             $table->date('fechaVenc');
             $table->float('monto');

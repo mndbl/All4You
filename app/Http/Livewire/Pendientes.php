@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire;
+use App\Models\Contrato;
 use App\Models\Pendiente;
 use App\Models\Cobro;
 use App\Models\Alerta;
@@ -14,7 +15,7 @@ class Pendientes extends Component
     public function render()
     {
         return view('livewire.pendientes', [
-            'pendientes' => Pendiente::where('status', '<>', 'c')->paginate(10),
+            'contratos' => Contrato::paginate(10),
         ]);
     }
 

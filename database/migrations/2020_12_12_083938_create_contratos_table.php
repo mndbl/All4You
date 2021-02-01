@@ -16,8 +16,11 @@ class CreateContratosTable extends Migration
         Schema::create('contratos', function (Blueprint $table) {
             $table->id();
             $table->date('fecha', 10);
-            $table->bigInteger('cliente_id')->unsigned();
-            $table->float('monto');
+            $table->foreignId('cliente_id')
+                ->constrained('clientes')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->float('monto')->nullable();
             $table->timestamps();
         });
     }

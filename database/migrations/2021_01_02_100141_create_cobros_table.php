@@ -15,8 +15,14 @@ class CreateCobrosTable extends Migration
     {
         Schema::create('cobros', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('pendiente_id');
-            $table->bigInteger('contrato_id');
+            $table->foreignId('pendiente_id')
+                ->constrained('pendientes')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreignId('contrato_id')
+                ->constrained('contratos')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->date('fechaCobro');
             $table->integer('cuota');
             $table->float('monto');
