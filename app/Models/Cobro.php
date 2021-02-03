@@ -11,4 +11,10 @@ class Cobro extends Model
     protected $fillable = [
         'pendiente_id', 'contrato_id', 'fechaCobro', 'cuota', 'monto'
     ];
+    public function contrato(){
+        return $this->belongsTo(Contrato::class);
+    }
+    public function cliente(){
+        return $this->contrato->belongsTo(Cliente::class);
+    }
 }

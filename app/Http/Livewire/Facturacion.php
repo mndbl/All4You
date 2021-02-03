@@ -313,9 +313,5 @@ class Facturacion extends Component
         $this->resetTodo();
         $this->factura = '';
     }
-    public function eliminarContrato($id){
-        $contratoAEliminar = Contrato::findOrFail($id);
-
-        session()->flash('message', 'Contrato Eliminado Exitosamente.');
-    }
+    
 }

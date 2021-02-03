@@ -11,4 +11,10 @@ class Alerta extends Model
     protected $fillable = [
         'contrato_id', 'fechaVenc', 'cuota', 'monto', 'status'
     ];
+    public function contrato(){
+        return $this->belongsTo(Contrato::class);
+    }
+    public function cliente(){
+        return $this->contrato->belongsTo(Cliente::class);
+    }
 }

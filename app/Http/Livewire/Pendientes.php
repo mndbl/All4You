@@ -11,11 +11,13 @@ use Mail;
 class Pendientes extends Component
 {
     use WithPagination;
-    public $cobrar = false, $pendiente_id, $contrato, $cuota, $monto, $fechaVcto, $fechaCobro;
+    public $cobrar = false, $pendiente_id, $contrato, $cuota, $monto, $fechaVcto, $fechaCobro, 
+        $detalles = false, $itemsContrato;
     public function render()
     {
         return view('livewire.pendientes', [
-            'contratos' => Contrato::paginate(10),
+            'contratos' => Contrato::with('cliente', 'items')->paginate(10),
+            
         ]);
     }
 
@@ -56,7 +58,7 @@ class Pendientes extends Component
         Mail::send('livewire.enviarAlerta',
         compact('alerta'),
             function($message){
-                $message->from(env('MAIL_FROM_ADDRESS', 'hello@example.com'));
+                $message->from(env('MAIL_FROM_ADDRESS', 'all4streamingandweb@gmail.com'));
                 $message->to([$this->email, 'all4streamingandweb@gmail.com'], $this->nombre)->subject('Alerta Vencimiento de Cuota');
             }
         );
@@ -70,5 +72,17 @@ class Pendientes extends Component
         $alerta->update(['status' => 'e']);
         
         session()->flash('message', 'Alerta Enviada Con Éxito a: ' . $alerta->contrato->cliente->nombre);  
+    }
+
+    public function detalleContrato($id){
+        $this->itemsContrato = Contrato::where('id', $id)->first();
+        $this->detalles = true;
+        $this->itemsContrato->detalles()->paginate(5);
+        
+    }
+    public function eliminarContrato($id){
+        $contratoAEliminar = Contrato::destroy($id);
+
+        session()->flash('message', 'Contrato Eliminado Exitosamente.');
     }
 }

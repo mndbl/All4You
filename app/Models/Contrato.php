@@ -13,6 +13,10 @@ class Contrato extends Model
         'fecha', 'cliente_id', 'monto', 'status'
     ];
 
+    public function detalles(){
+        return $this->hasMany(Pendiente::class);
+    }
+
     public function pendientes(){
         return $this->hasMany(Pendiente::class)->where('status', 'p');
     }
