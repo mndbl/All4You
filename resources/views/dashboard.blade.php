@@ -12,10 +12,10 @@
             </div>
             <div x-data="{active: 0}">
                 <div class="flex -mb-px overflow-hidden border border-black">
-                    <button class="w-full px-4 py-2" x-on:click.prevent="active = 0" x-bind:class="{'bg-blue-400 text-white': active === 0}">Facturación</button>
-                    <button class="w-full px-4 py-2" x-on:click.prevent="active = 1" x-bind:class="{'bg-blue-400 text-white': active === 1}">Contratos</button>
-                    <button class="w-full px-4 py-2" x-on:click.prevent="active = 2" x-bind:class="{'bg-blue-400 text-white': active === 2}">Cobros</button>
-                    <button class="w-full px-4 py-2" x-on:click.prevent="active = 3" x-bind:class="{'bg-blue-400 text-white': active === 3}">Alertas</button>
+                    <button class="sm:w-1/4 lg:w-full sm:text-sm lg:text-base sm:px-1 lg:px-4 py-2" x-on:click.prevent="active = 0" x-bind:class="{'bg-blue-400 text-white': active === 0}">Facturación</button>
+                    <button class="sm:w-1/4 lg:w-full sm:text-sm lg:text-base sm:px-1 lg:px-4 py-2" x-on:click.prevent="active = 1" x-bind:class="{'bg-blue-400 text-white': active === 1}">Contratos</button>
+                    <button class="sm:w-1/4 lg:w-full sm:text-sm lg:text-base sm:px-1 lg:px-4 py-2" x-on:click.prevent="active = 2" x-bind:class="{'bg-blue-400 text-white': active === 2}">Cobros</button>
+                    <button class="sm:w-1/4 lg:w-full sm:text-sm lg:text-base sm:px-1 lg:px-4 py-2" x-on:click.prevent="active = 3" x-bind:class="{'bg-blue-400 text-white': active === 3}">Alertas</button>
                 </div>
                 <div class="-mt-px bg-white border border-black bg-opacity-10">
                     <div class="p-4 space-y-2" x-show="active === 0">

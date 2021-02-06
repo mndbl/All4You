@@ -25,7 +25,6 @@
     <table class="mb-4 bg-white rounded shadow-md text-md">
         <thead>
             <tr class="border-b">
-                {{-- <th class="p-3 px-5 text-left">Item</th> --}}
                 <th class="p-3 px-5 text-left w-1/12">Nro. Contrato</th>
                 <th class="p-3 px-5 text-left w-1/6">Fecha</th>
                 <th class="p-3 px-5 text-left w-1/5">Cliente|Canal</th>
@@ -48,7 +47,7 @@
             </tr>
             @empty
             <tr>
-                <td class="p-3 px-5">No existen cuentas por cobrar</td>
+                <td class="p-3 px-5" colspan=3>No existen cuentas por cobrar</td>
             </tr>
             @endforelse
 

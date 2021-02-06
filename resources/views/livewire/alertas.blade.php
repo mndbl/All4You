@@ -35,7 +35,7 @@
             </tr>
             @empty
             <tr>
-                <td class="p-3 px-5">No existen alertas Registrados</td>
+                <td class="p-3 px-5" colspan=3>No existen alertas Registrados</td>
             </tr>
             @endforelse
 
