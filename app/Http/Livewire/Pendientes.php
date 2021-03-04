@@ -58,8 +58,8 @@ class Pendientes extends Component
         Mail::send('livewire.enviarAlerta',
         compact('alerta'),
             function($message){
-                $message->from(env('MAIL_FROM_ADDRESS', 'all4streamingandweb@gmail.com'));
-                $message->to([$this->email, 'all4streamingandweb@gmail.com'], $this->nombre)->subject('Alerta Vencimiento de Cuota');
+                $message->from(env('MAIL_FROM_ADDRESS'));
+                $message->to($this->email, $this->nombre)->bcc('info@yohangarcia.com')->subject('Alerta Vencimiento de Cuota');
             }
         );
         Alerta::create([
